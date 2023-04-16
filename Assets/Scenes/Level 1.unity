@@ -378,10 +378,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rocket
       objectReference: {fileID: 0}
-    - target: {fileID: 5626776623804648448, guid: 88876b57b1e55498195496bd04e632d2, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 6770962362913880124, guid: 88876b57b1e55498195496bd04e632d2, type: 3}
       propertyPath: m_RootOrder
       value: 3

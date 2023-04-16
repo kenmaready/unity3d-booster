@@ -5,11 +5,15 @@ using UnityEngine;
 public class Flight : MonoBehaviour
 {
 
+    [SerializeField] AudioClip engineThrustSFX;
+    
     Rigidbody rb;
     AudioSource sound;
+    bool isPlaying = false;
+    
     float thrust = 50f;
     float rotateSpeed = 100f;
-    bool isPlaying = false;
+    bool isAlive = true;
 
     void Awake()
     {
@@ -30,7 +34,7 @@ public class Flight : MonoBehaviour
             
             if (!isPlaying) {
                 isPlaying = true;
-                sound.Play();
+                sound.PlayOneShot(engineThrustSFX);
             }
 
         } else if (isPlaying) {

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -6867882748716742171}
   m_Layer: 0
   m_Name: Rocket
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bab02299e3fc410aa894c7a4b9a4812, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  engineThrustSFX: {fileID: 8300000, guid: f97a55dbd1c444511a04361d5f887b9f, type: 3}
 --- !u!54 &2310847559297997987
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -74,7 +75,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f97a55dbd1c444511a04361d5f887b9f, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -172,6 +173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e1bb060332445b6b15ebbeb1a1569a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crashSFX: {fileID: 8300000, guid: f3632f376e05f44eb82d76687f5ee149, type: 3}
+  landingSFX: {fileID: 8300000, guid: c3291172797724269a460452e335d390, type: 3}
 --- !u!1 &7058154849749607234
 GameObject:
   m_ObjectHideFlags: 0
