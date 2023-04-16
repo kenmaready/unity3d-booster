@@ -6,7 +6,7 @@ public class Flight : MonoBehaviour
 {
 
     Rigidbody rb;
-    AudioSource audio;
+    AudioSource sound;
     float thrust = 50f;
     float rotateSpeed = 100f;
     bool isPlaying = false;
@@ -14,13 +14,14 @@ public class Flight : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        audio = GetComponent<AudioSource>();
+        sound = GetComponent<AudioSource>();
     }
 
     void Update()
     {
         ProcessThrust();
         ProcessRotate();
+        DeRotate();
     }
 
     void ProcessThrust() {
@@ -29,12 +30,12 @@ public class Flight : MonoBehaviour
             
             if (!isPlaying) {
                 isPlaying = true;
-                audio.Play();
+                sound.Play();
             }
-            
+
         } else if (isPlaying) {
             isPlaying = false;
-            audio.Stop();
+            sound.Stop();
         }
     }
 
@@ -50,5 +51,12 @@ public class Flight : MonoBehaviour
             transform.Rotate(Vector3.back * rotateSpeed * Time.deltaTime);
             rb.freezeRotation = false;
         }
+    }
+
+    void DeRotate() {
+            Quaternion currRotation = transform.rotation;
+            currRotation.x = 0;
+            currRotation.y = 0;
+            transform.rotation = currRotation;
     }
 }
