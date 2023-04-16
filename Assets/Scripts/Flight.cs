@@ -4,15 +4,39 @@ using UnityEngine;
 
 public class Flight : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    Rigidbody rb;
+    float thrust = 50f;
+    float rotateSpeed = 100f;
+
+    void Awake()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        ProcessThrust();
+        ProcessRotate();
+    }
+
+    void ProcessThrust() {
+        if (Input.GetKey(KeyCode.Space)) {
+            rb.AddRelativeForce(Vector3.up * thrust * Time.deltaTime, ForceMode.Impulse);
+        }
+    }
+
+    void ProcessRotate() {
+        if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
+            rb.freezeRotation = true;
+            transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
+            rb.freezeRotation = false;
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
+            rb.freezeRotation = true;
+            transform.Rotate(Vector3.back * rotateSpeed * Time.deltaTime);
+            rb.freezeRotation = false;
+        }
     }
 }
