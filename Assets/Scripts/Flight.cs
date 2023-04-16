@@ -6,12 +6,15 @@ public class Flight : MonoBehaviour
 {
 
     Rigidbody rb;
+    AudioSource audio;
     float thrust = 50f;
     float rotateSpeed = 100f;
+    bool isPlaying = false;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        audio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -23,6 +26,15 @@ public class Flight : MonoBehaviour
     void ProcessThrust() {
         if (Input.GetKey(KeyCode.Space)) {
             rb.AddRelativeForce(Vector3.up * thrust * Time.deltaTime, ForceMode.Impulse);
+            
+            if (!isPlaying) {
+                isPlaying = true;
+                audio.Play();
+            }
+            
+        } else if (isPlaying) {
+            isPlaying = false;
+            audio.Stop();
         }
     }
 
