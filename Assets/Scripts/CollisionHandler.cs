@@ -10,32 +10,42 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] AudioClip crashSFX;
     [SerializeField] AudioClip landingSFX;
 
+    bool isTransitioning = false;
+
 
     private void Awake() {
         sound = GetComponent<AudioSource>();
     }
 
     private void OnCollisionEnter(Collision other) {
+
+        if (isTransitioning) {
+            return;
+        }
+
         switch (other.gameObject.tag) {
             case "Friendly":
-                Debug.Log("Touched a friendly");
                 break;
             case "Finish":
-                Debug.Log("Touched landing pad");
-                sound.PlayOneShot(landingSFX);
-                StartCoroutine(LoadNextLevel());
+                StartCompleteSequence();
                 break;
             default:
-                Debug.Log("Kablooey");
                 StartCrashSequence();
-                StartCoroutine(ReloadLevel());
                 break;
         }
     }
 
+    void StartCompleteSequence() {
+        isTransitioning = true;
+        sound.PlayOneShot(landingSFX);
+        StartCoroutine(LoadNextLevel());
+    }
+
     void StartCrashSequence() {
-        GetComponent<Flight>().enabled = false;
+        isTransitioning = true;
         sound.PlayOneShot(crashSFX);
+        GetComponent<Flight>().enabled = false;
+        StartCoroutine(ReloadLevel());
     }
 
     IEnumerator ReloadLevel() {
