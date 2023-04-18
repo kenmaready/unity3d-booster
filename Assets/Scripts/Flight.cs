@@ -31,42 +31,48 @@ public class Flight : MonoBehaviour
         DeRotate();
     }
 
+    // Thrusting Logic
     void ProcessThrust() {
-        if (Input.GetKey(KeyCode.Space)) {
-            rb.AddRelativeForce(Vector3.up * thrust * Time.deltaTime, ForceMode.Impulse);
-            
-            if (!sound.isPlaying) {
-                sound.PlayOneShot(engineThrustSFX);
-            }
-            if (!mainEngineParticles.isPlaying) {
-                mainEngineParticles.Play();
-            }
-
-        } else {
-            if (sound.isPlaying) { sound.Stop(); }
-            if (mainEngineParticles.isPlaying) { mainEngineParticles.Stop(); }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            StartThrust();
+        }
+        else
+        {
+            StopThrust();
         }
     }
 
-    void ProcessRotate() {
-        if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
-            if (!leftBoosterParticles.isPlaying) {
-                leftBoosterParticles.Play();
-            }
+    private void StartThrust()
+    {
+        rb.AddRelativeForce(Vector3.up * thrust * Time.deltaTime, ForceMode.Impulse);
 
-            rb.freezeRotation = true;
-            transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
-            rb.freezeRotation = false;
+        if (!sound.isPlaying)
+        {
+            sound.PlayOneShot(engineThrustSFX);
+        }
+        if (!mainEngineParticles.isPlaying)
+        {
+            mainEngineParticles.Play();
+        }
+    }
+
+    private void StopThrust()
+    {
+        if (sound.isPlaying) { sound.Stop(); }
+        if (mainEngineParticles.isPlaying) { mainEngineParticles.Stop(); }
+    }
+
+    // Rotation Logic
+    void ProcessRotate() {
+        if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+        {
+            RotateLeft();
         }
 
-        if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
-            if (!rightBoosterParticles.isPlaying) {
-                rightBoosterParticles.Play();
-            }
-            rb.freezeRotation = true;
-            rightBoosterParticles.Play();
-            transform.Rotate(Vector3.back * rotateSpeed * Time.deltaTime);
-            rb.freezeRotation = false;
+        if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
+        {
+            RotateRight();
         }
 
         if (leftBoosterParticles.isPlaying && !Input.GetKey(KeyCode.LeftArrow)) {
@@ -77,6 +83,30 @@ public class Flight : MonoBehaviour
             rightBoosterParticles.Stop();
         }
 
+    }
+    
+    private void RotateLeft()
+    {
+        if (!leftBoosterParticles.isPlaying)
+        {
+            leftBoosterParticles.Play();
+        }
+
+        rb.freezeRotation = true;
+        transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
+        rb.freezeRotation = false;
+    }
+
+    private void RotateRight()
+    {
+        if (!rightBoosterParticles.isPlaying)
+        {
+            rightBoosterParticles.Play();
+        }
+        rb.freezeRotation = true;
+        rightBoosterParticles.Play();
+        transform.Rotate(Vector3.back * rotateSpeed * Time.deltaTime);
+        rb.freezeRotation = false;
     }
 
     void DeRotate() {
