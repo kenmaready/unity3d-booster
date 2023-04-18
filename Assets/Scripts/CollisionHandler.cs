@@ -10,6 +10,9 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] AudioClip crashSFX;
     [SerializeField] AudioClip landingSFX;
 
+    [SerializeField] ParticleSystem crashParticles;
+    [SerializeField] ParticleSystem landingParticles;
+
     bool isTransitioning = false;
 
 
@@ -30,7 +33,8 @@ public class CollisionHandler : MonoBehaviour
                 StartCompleteSequence();
                 break;
             default:
-                StartCrashSequence();
+                ContactPoint contactPoint = other.GetContact(0);
+                StartCrashSequence(contactPoint);
                 break;
         }
     }
@@ -38,12 +42,15 @@ public class CollisionHandler : MonoBehaviour
     void StartCompleteSequence() {
         isTransitioning = true;
         sound.PlayOneShot(landingSFX);
+        landingParticles.Play();
         StartCoroutine(LoadNextLevel());
     }
 
-    void StartCrashSequence() {
+    void StartCrashSequence(ContactPoint pos) {
         isTransitioning = true;
         sound.PlayOneShot(crashSFX);
+        Debug.Log("Position of Collision: " + pos.point);
+        crashParticles.Play();
         GetComponent<Flight>().enabled = false;
         StartCoroutine(ReloadLevel());
     }
