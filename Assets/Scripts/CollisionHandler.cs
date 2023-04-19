@@ -14,10 +14,25 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] ParticleSystem landingParticles;
 
     bool isTransitioning = false;
+    bool disableCollisions = false;
 
 
     private void Awake() {
         sound = GetComponent<AudioSource>();
+    }
+
+    private void Update() {
+        CheckCheatKeys();
+    }
+
+    void CheckCheatKeys() {
+        if (Input.GetKeyDown(KeyCode.C)) {
+            disableCollisions = !disableCollisions;
+        }
+
+        if (Input.GetKeyDown(KeyCode.L)) {
+            StartCoroutine(LoadNextLevel());
+        }
     }
 
     private void OnCollisionEnter(Collision other) {
@@ -33,6 +48,7 @@ public class CollisionHandler : MonoBehaviour
                 StartCompleteSequence();
                 break;
             default:
+                if (disableCollisions) { break; }
                 ContactPoint contactPoint = other.GetContact(0);
                 StartCrashSequence(contactPoint);
                 break;
