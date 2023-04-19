@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
@@ -13,12 +14,15 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] ParticleSystem crashParticles;
     [SerializeField] ParticleSystem landingParticles;
 
+    [SerializeField] Image noCollisionImage;
+    
     bool isTransitioning = false;
     bool disableCollisions = false;
 
 
     private void Awake() {
         sound = GetComponent<AudioSource>();
+        noCollisionImage.enabled = false;
     }
 
     private void Update() {
@@ -28,6 +32,11 @@ public class CollisionHandler : MonoBehaviour
     void CheckCheatKeys() {
         if (Input.GetKeyDown(KeyCode.C)) {
             disableCollisions = !disableCollisions;
+            if (disableCollisions) {
+                noCollisionImage.enabled = true;
+            } else {
+                noCollisionImage.enabled = false;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.L)) {
